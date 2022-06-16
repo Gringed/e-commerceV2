@@ -1,10 +1,10 @@
 import React from "react";
 import styled from "styled-components";
 import { client } from "../lib/client";
-import { FooterBanner, HeadingBanner, Navbar } from "../components";
+import { FooterBanner, HeadingBanner, Navbar, Product } from "../components";
 
 const ColorPrim = "#db7093";
-const ColorSec = "whitesmoke";
+const ColorSec = "#18191a";
 
 const ProductHeading = styled.div`
   display: flex;
@@ -28,12 +28,12 @@ const Home = ({ products, banner }) => {
     <>
       <HeadingBanner banner={banner.length && banner[0]}/>
       <ProductHeading>
-        <H2Heading>Meilleurs ventes</H2Heading>
-        <PHeading>Voici les meilleurs ventes du mois</PHeading>
+        <H2Heading>Meilleures ventes</H2Heading>
+        <PHeading>Voici les meilleures ventes du mois</PHeading>
       </ProductHeading>
       <ProductsContainer>
         {products?.map((item) => (
-          item.name
+          <Product key={item._id} product={item}/>
         ))}
       </ProductsContainer>
       <FooterBanner />

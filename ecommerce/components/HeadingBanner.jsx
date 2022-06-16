@@ -3,33 +3,42 @@ import styled from "styled-components";
 import Link from "next/link";
 import { urlFor } from "../lib/client";
 const ColorPrim = "#db7093";
-const ColorSec = "whitesmoke";
+const ColorSec = "white";
 const ColorTer = "#18191a";
-const ColorBg = "#242424";
+const ColorBg = "#dcdcdc";
 
 const Container = styled.div`
   padding: 50px 0;
   background-color: ${ColorBg};
   border-radius: 15px;
   position: relative;
-  height: 40vh;
+  height: 35vh;
   line-height: 0.9;
   width: 100%;
 `;
 const Banner = styled.div`
-  padding: 20px;
+  padding: 25px 50px;
 `;
 const SmallText = styled.p`
   font-size: 20px;
   margin: 0;
-  color: ${ColorSec};
+  color: ${ColorTer};
+  text-transform: uppercase;
 `;
 const MidText = styled.h2`
   margin: 0;
-  font-size: 40px;
+  font-size: 50px;
   color: ${ColorPrim};
   text-transform: uppercase;
   padding: 10px 0;
+`;
+const LargeText = styled.p`
+  margin: 0;
+  font-size: 70px;
+  color: ${ColorSec};
+  text-transform: uppercase;
+  padding: 10px 0;
+  font-weight: bold;
 `;
 const Image = styled.img`
   position: absolute;
@@ -45,7 +54,7 @@ const Button = styled.button`
   background: ${ColorPrim};
   border: none;
   color: ${ColorTer};
-  font-weight: 500;
+  font-weight: bold;
   cursor: pointer;
   font-size: 15px;
   font-family: 'Quicksand',serif;
@@ -57,7 +66,7 @@ const Description = styled.div`
   line-height: 0.1;
   display: flex;
   flex-direction: column;
-  color: ${ColorSec};
+  color: ${ColorTer};
   align-items: flex-end;
 `;
 const Text = styled.p`
@@ -70,6 +79,7 @@ const HeadingBanner = ({banner}) => {
       <Banner>
         <SmallText>{banner.smallText}</SmallText>
         <MidText>{banner.midText}</MidText>
+        <LargeText>{banner.largeText1}</LargeText>
         <Image src={urlFor(banner.image)} alt="Image Meilleurs ventes" />
         <LinkContainer>
           <Link href={`/product/${banner._id}`}>
