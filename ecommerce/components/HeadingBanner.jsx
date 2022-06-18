@@ -10,7 +10,6 @@ const ColorBg = "#dcdcdc";
 const Container = styled.div`
   padding: 50px 0;
   background-color: ${ColorBg};
-  border-radius: 15px;
   position: relative;
   height: 35vh;
   line-height: 0.9;
@@ -44,13 +43,13 @@ const Image = styled.img`
   position: absolute;
   top: 0%;
   right: 20%;
-  height: 350px;
+  height: 100%;
   object-fit: cover;
 `;
 const LinkContainer = styled.div``;
 const Button = styled.button`
   margin: 15px 0;
-  padding: 10px;
+  padding: 15px;
   background: ${ColorPrim};
   border: none;
   color: ${ColorTer};
@@ -80,9 +79,9 @@ const HeadingBanner = ({banner}) => {
         <SmallText>{banner.smallText}</SmallText>
         <MidText>{banner.midText}</MidText>
         <LargeText>{banner.largeText1}</LargeText>
-        <Image src={urlFor(banner.image)} alt="Image Meilleurs ventes" />
+        <Image src={urlFor(banner.image)} alt="Image nouveauté" />
         <LinkContainer>
-          <Link href={`/product/${banner._id}`}>
+          <Link href={`/product/${banner.slug.current}`}>
             <Button type="button">{banner.buttonText}</Button>
           </Link>
           <Description>

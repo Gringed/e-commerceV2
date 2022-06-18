@@ -12,6 +12,15 @@ export default {
             },
         },
         {
+            name: "slug",
+            title: "ID Unique",
+            type: "slug",
+            options: {
+                source: 'product',
+                maxLength: 90,
+            }
+        },
+        {
             name: 'buttonText',
             title: 'Texte du bouton',
             type: 'string',
