@@ -2,6 +2,8 @@ import Link from "next/link";
 import React from "react";
 import styled from "styled-components";
 import { BiShoppingBag } from "react-icons/bi";
+import {Cart} from './';
+import { useStateContext } from "../context/StateContext";
 
 const ColorPrim = "#db7093";
 const ColorSec = "white";
@@ -56,16 +58,18 @@ const Span = styled.span`
 `;
 
 const Navbar = () => {
+  const {showCart, setShowCart, totalQuantities} = useStateContext();
   return (
     <Container>
       <Logo>
         <Link href="/">Mooney</Link>
       </Logo>
       <CartPart>
-        <Button type="button">
+        <Button onClick={() => setShowCart(showCart ? false : true)}>
           <BiShoppingBag />
-          <Span>1</Span>
+          <Span>{totalQuantities}</Span>
         </Button>
+        {showCart && <Cart />}
       </CartPart>
     </Container>
   );

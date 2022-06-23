@@ -240,7 +240,7 @@ const Track = styled.div`
 const ProductDetails = ({ product, products }) => {
   const { image, name, details, price, colors, size } = product;
   const [index, setIndex] = useState(0);
-  const {decQty, incQty, qty, setSize} = useStateContext();
+  const {decQty, incQty, qty, setSize, onAdd, oneSize} = useStateContext();
   return (
     <>
       <Container>
@@ -289,7 +289,7 @@ const ProductDetails = ({ product, products }) => {
                 Choisir une taille
               </option>
               {size?.map((item, i) => (
-                <Size key={i}>{item}</Size>
+                <Size value={item} key={i}>{item}</Size>
               ))}
             
             </Select>
@@ -308,7 +308,7 @@ const ProductDetails = ({ product, products }) => {
             </QuantityDesc>
           </Quantity>
           <Buttons>
-            <AddToCart >Ajouter au panier</AddToCart>
+            <AddToCart onClick={() => onAdd(product, qty, oneSize)}>Ajouter au panier</AddToCart>
             <BuyNow >Acheter maintenant</BuyNow>
           </Buttons>
         </ProductDetailsDesc>

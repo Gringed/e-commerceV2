@@ -48,15 +48,22 @@ const Image = styled.img`
 `;
 const LinkContainer = styled.div``;
 const Button = styled.button`
-  margin: 15px 0;
-  padding: 15px;
-  background: ${ColorPrim};
-  border: none;
-  color: ${ColorTer};
-  font-weight: bold;
+  width: 220px;
+  padding: 10px 20px;
+  border: 1px solid ${ColorPrim};
+  font-size: 18px;
+  font-weight: 500;
+  background-color: ${ColorSec};
+  color: ${ColorPrim};
   cursor: pointer;
-  font-size: 15px;
-  font-family: 'Quicksand',serif;
+  transition: all 0.5s ease;
+  font-family: "Quicksand", sans-serif;
+  &:hover {
+    transform: scale(1.1, 1.1);
+    color: ${ColorSec};
+    background: ${ColorPrim};
+    border: 1px solid ${ColorPrim};
+  }
 `;
 const Description = styled.div`
   position: absolute;
