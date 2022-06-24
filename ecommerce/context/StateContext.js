@@ -13,6 +13,9 @@ export const StateContext = ({ children }) => {
   const [oneSize, setOneSize] = useState();
   const [qty, setQty] = useState(1);
 
+  let foundProduct;
+  let index;
+
   const onAdd = (product, quantity, size) => {
     const checkProductInCart = cartItems.find(
       (item) => item._id === product._id
@@ -31,14 +34,48 @@ export const StateContext = ({ children }) => {
           };
       });
       setCartItems(updateCartItems);
-      
     } else {
       product.quantity = quantity;
-      setCartItems([...cartItems, {...product, oneSize}])
+      setCartItems([...cartItems, { ...product, oneSize }]);
+      setQty(1);
     }
     toast.success(
       `${qty} ${product.name} de taille ${oneSize} ajouté au panier.`
     );
+  };
+
+  const onRemove = (id) => {
+    foundProduct = cartItems.find((item) => item._id === id);
+    const newCartItems = cartItems.filter((item) => item._id != id);
+    setTotalPrice(
+      (prevTotalPrice) =>
+        prevTotalPrice - foundProduct.price * foundProduct.quantity
+    );
+    setTotalQuantities(
+      (prevTotalQuantities) => prevTotalQuantities - foundProduct.quantity
+    );
+    setCartItems(newCartItems);
+  };
+
+  const toggleCartItemQuantity = (id, value) => {
+    foundProduct = cartItems.find((item) => item._id === id);
+    index = cartItems.findIndex((product) => product._id === id);
+
+    if (value === "inc") {
+      foundProduct.quantity += 1;
+      setTotalPrice((prevTotalPrice) => prevTotalPrice + foundProduct.price);
+      setTotalQuantities((prevTotalQuantities) => prevTotalQuantities + 1);
+    } else if (value === "dec") {
+      if (foundProduct.quantity > 1) {
+        foundProduct.quantity -= 1;
+        setTotalPrice((prevTotalPrice) => prevTotalPrice - foundProduct.price);
+        setTotalQuantities((prevTotalQuantities) => prevTotalQuantities - 1);
+      }
+    }
+    let newCartItems = cartItems.map((item, i) => {
+      return i === index ? foundProduct : item;
+    });
+    setCartItems(newCartItems);
   };
 
   const incQty = () => {
@@ -73,7 +110,9 @@ export const StateContext = ({ children }) => {
         incQty,
         decQty,
         setSize,
-        onAdd
+        onAdd,
+        toggleCartItemQuantity,
+        onRemove,
       }}
     >
       {children}

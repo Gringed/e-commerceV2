@@ -30,6 +30,7 @@ const Container = styled.div`
   float: right;
   padding: 40px 10px;
   position: relative;
+  user-select: none;
 `;
 const ArrowLeft = BsArrowLeft;
 const IconArrowLeft = styled(ArrowLeft)`
@@ -149,30 +150,30 @@ const QuantityDesc = styled.p`
 `;
 
 const RemoveItem = styled.button`
-font-size: 25px;
+  font-size: 25px;
   color: red;
   cursor: pointer;
   background: transparent;
   border: none;
   padding: 0;
-`
+`;
 const CartBottom = styled.div`
-position: absolute;
+  position: absolute;
   bottom: 40px;
-width: 90%;
-padding: 50px 20px;
-`
+  width: 90%;
+  padding: 50px 20px;
+`;
 const Total = styled.div`
   display: flex;
   justify-content: space-between;
   font-weight: bold;
   font-size: 17px;
   color: ${ColorTer};
-`
+`;
 const BtnContainer = styled.div`
   width: 400px;
   margin: auto;
-`
+`;
 const Btn = styled.button`
   width: 100%;
   max-width: 400px;
@@ -193,12 +194,18 @@ const Btn = styled.button`
     background: ${ColorPrim};
     border: 1px solid ${ColorPrim};
   }
-`
+`;
 
 const Cart = () => {
   const cartRef = useRef();
-  const { totalPrice, totalQuantities, cartItems, setShowCart } =
-    useStateContext();
+  const {
+    totalPrice,
+    totalQuantities,
+    cartItems,
+    setShowCart,
+    toggleCartItemQuantity,
+    onRemove
+  } = useStateContext();
   return (
     <Wrapper ref={cartRef}>
       <Container>
@@ -233,15 +240,23 @@ const Cart = () => {
                   <TextItem name="size">{item.oneSize}</TextItem>
                   <FlexBottom>
                     <QuantityDesc>
-                      <span className="less">
+                      <span
+                        className="less"
+                        onClick={() => toggleCartItemQuantity(item._id, "dec")}
+                      >
                         <BsDash />
                       </span>
                       <span className="num">{item.quantity}</span>
-                      <span className="plus">
+                      <span
+                        className="plus"
+                        onClick={() => toggleCartItemQuantity(item._id, "inc")}
+                      >
                         <BsPlus />
                       </span>
                     </QuantityDesc>
-                    <RemoveItem><TiDeleteOutline /></RemoveItem>
+                    <RemoveItem onClick={() => onRemove(item._id)}>
+                      <TiDeleteOutline />
+                    </RemoveItem>
                   </FlexBottom>
                 </ItemDesc>
               </Product>
