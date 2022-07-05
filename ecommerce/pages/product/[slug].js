@@ -4,7 +4,7 @@ import Link from "next/link";
 import { client, urlFor } from "../../lib/client";
 import { BsPlus, BsDash, BsFillStarFill, BsStar } from "react-icons/bs";
 import { Product } from "../../components";
-import { useStateContext } from '../../context/StateContext';
+import { useStateContext } from "../../context/StateContext";
 
 const ColorPrim = "#db7093";
 const ColorSec = "white";
@@ -172,6 +172,11 @@ const AddToCart = styled.button`
     background: ${ColorPrim};
     border: 1px solid ${ColorPrim};
   }
+  &:disabled {
+    opacity: 0.5;
+    cursor: default;
+    transform: none;
+  }
 `;
 const BuyNow = styled.button`
   width: 220px;
@@ -189,6 +194,11 @@ const BuyNow = styled.button`
     transform: scale(1.1, 1.1);
     color: ${ColorSec};
     background: ${ColorPrim};
+  }
+  &:disabled {
+    opacity: 0.5;
+    cursor: default;
+    transform: none;
   }
 `;
 const Details = styled.div`
@@ -240,7 +250,14 @@ const Track = styled.div`
 const ProductDetails = ({ product, products }) => {
   const { image, name, details, price, colors, size } = product;
   const [index, setIndex] = useState(0);
-  const {decQty, incQty, qty, setSize, onAdd, oneSize} = useStateContext();
+  const { decQty, incQty, qty, setSize, onAdd, oneSize, setShowCart } =
+    useStateContext();
+
+  const handleBuyNow = () => {
+    onAdd(product, qty);
+
+    setShowCart(true);
+  };
   return (
     <>
       <Container>
@@ -289,9 +306,10 @@ const ProductDetails = ({ product, products }) => {
                 Choisir une taille
               </option>
               {size?.map((item, i) => (
-                <Size value={item} key={i}>{item}</Size>
+                <Size value={item} key={i}>
+                  {item}
+                </Size>
               ))}
-            
             </Select>
           </SizeContainer>
           <Price>{price}€</Price>
@@ -308,8 +326,22 @@ const ProductDetails = ({ product, products }) => {
             </QuantityDesc>
           </Quantity>
           <Buttons>
-            <AddToCart onClick={() => onAdd(product, qty, oneSize)}>Ajouter au panier</AddToCart>
-            <BuyNow >Acheter maintenant</BuyNow>
+            {!oneSize ? (
+              <AddToCart disabled onClick={() => onAdd(product, qty, oneSize)}>
+                Ajouter au panier
+              </AddToCart>
+            ) : (
+              <AddToCart onClick={() => onAdd(product, qty, oneSize)}>
+                Ajouter au panier
+              </AddToCart>
+            )}
+            {!oneSize ? (
+              <BuyNow onClick={handleBuyNow} disabled>
+                Acheter maintenant
+              </BuyNow>
+            ) : (
+              <BuyNow onClick={handleBuyNow}>Acheter maintenant</BuyNow>
+            )}
           </Buttons>
         </ProductDetailsDesc>
       </Container>
@@ -318,7 +350,7 @@ const ProductDetails = ({ product, products }) => {
       </Details>
       <Hr />
       <AlsoLike>
-        <h2>Vous aimerez peut être . . .</h2>
+        <h2>Vous aimeriez peut être . . .</h2>
         <Marquee>
           <MayLikeContainer>
             <Track>

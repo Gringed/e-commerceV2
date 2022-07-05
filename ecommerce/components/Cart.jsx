@@ -6,6 +6,7 @@ import toast from "react-hot-toast";
 import { useStateContext } from "../context/StateContext";
 import { urlFor } from "../lib/client";
 import styled from "styled-components";
+import getStripe from "../lib/getStripe";
 
 const ColorPrim = "#db7093";
 const ColorSec = "white";
@@ -206,6 +207,27 @@ const Cart = () => {
     toggleCartItemQuantity,
     onRemove
   } = useStateContext();
+
+  const handleCheckout = async () => {
+    const stripe = await getStripe();
+
+    const response = await fetch('/api/stripe', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(cartItems)
+    });
+
+    if(response.statusCode === 500) return;
+
+    const data = await response.json();
+
+    toast.loading('Redirection ...');
+
+    stripe.redirectToCheckout({sessionId: data.id});
+  }
+
   return (
     <Wrapper ref={cartRef}>
       <Container>
@@ -269,7 +291,7 @@ const Cart = () => {
               <p>{totalPrice} €</p>
             </Total>
             <BtnContainer>
-              <Btn>Payer avec Stripe</Btn>
+              <Btn onClick={handleCheckout}>Payer avec Stripe</Btn>
             </BtnContainer>
           </CartBottom>
         )}
